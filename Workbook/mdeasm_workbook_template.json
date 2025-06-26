@@ -230,8 +230,7 @@
             "queryType": 0,
             "resourceType": "microsoft.operationalinsights/workspaces",
             "value": [
-              "EASM",
-              "easmtemp"
+              "value::all"
             ]
           },
           {
@@ -306,13 +305,25 @@
             "version": "KqlParameterItem/1.0",
             "name": "_label",
             "label": "Labels",
-            "type": 1,
+            "type": 2,
             "isRequired": true,
             "isGlobal": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "EasmAsset_CL\r\n| extend LabelsArray = parse_json(Labels_s)\r\n| mv-expand Label = LabelsArray\r\n| extend Label = tostring(Label)\r\n| distinct Label",
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
             "timeContext": {
               "durationMs": 604800000
             },
-            "defaultValue": "value::all"
+            "defaultValue": "value::all",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
           }
         ],
         "style": "above",
@@ -2082,7 +2093,8 @@
                         "jsonData": "[\"By System\",\"By Port\"]",
                         "timeContext": {
                           "durationMs": 86400000
-                        }
+                        },
+                        "value": null
                       },
                       {
                         "id": "caf51a2e-92ce-4823-bec8-3b9166b5ea05",
